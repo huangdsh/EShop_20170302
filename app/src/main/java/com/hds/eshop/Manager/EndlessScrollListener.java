@@ -7,7 +7,8 @@ package com.hds.eshop.Manager;
 
 import android.widget.AbsListView;
 
-import com.feicuiedu.eshop.base.utils.LogUtils;
+import com.hds.eshop.Utils.LogUtils;
+
 
 /**
  * 用于分页加载的ListView滚动监听器.

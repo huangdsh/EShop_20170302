@@ -1,7 +1,8 @@
 package com.hds.eshop.Manager;
 
-import com.feicuiedu.eshop_0221.network.core.ApiInterface;
 import com.google.gson.Gson;
+import com.hds.eshop.Api.ApiInterface;
+import com.hds.eshop.Entity.SearchReq;
 
 import java.io.IOException;
 
@@ -167,5 +168,6 @@ public class EShopClient {
          }
 
     }
+
 
 }

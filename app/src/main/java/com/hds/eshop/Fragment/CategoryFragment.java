@@ -16,10 +16,8 @@ import com.hds.eshop.Api.ApiPath;
 import com.hds.eshop.Entity.CategoryPrimary;
 import com.hds.eshop.Entity.CategoryRsp;
 import com.hds.eshop.Entity.Filter;
-import com.hds.eshop.Manager.EShopClient;
 import com.hds.eshop.Manager.ResponseEntity;
 import com.hds.eshop.Manager.ToolbarWrapper;
-import com.hds.eshop.Manager.UICallback;
 import com.hds.eshop.R;
 
 import java.util.List;
@@ -89,19 +87,19 @@ public class CategoryFragment extends BaseFragment {
         } else {
             // 去进行网络请求拿到数据
             enqueue(new ApiCategory());
-
-            UICallback uiCallback = new UICallback() {
-                @Override
-                public void onBusinessResponse(boolean isSucces, ResponseEntity responseEntity) {
-                    if (isSucces) {
-                        CategoryRsp categoryRsp = (CategoryRsp) responseEntity;
-                        mData = categoryRsp.getData();
-                        // 数据有了之后，数据给一级分类，默认选择第一条，二级分类才能展示
-                        updateCategory();
-                    }
-                }
-            };
-            EShopClient.getInstance().enqueue(ApiPath.CATEGORY,null,CategoryRsp.class,uiCallback);
+//
+//            UICallback uiCallback = new UICallback() {
+//                @Override
+//                public void onBusinessResponse(boolean isSucces, ResponseEntity responseEntity) {
+//                    if (isSucces) {
+//                        CategoryRsp categoryRsp = (CategoryRsp) responseEntity;
+//                        mData = categoryRsp.getData();
+//                        // 数据有了之后，数据给一级分类，默认选择第一条，二级分类才能展示
+//                        updateCategory();
+//                    }
+//                }
+//            };
+//            EShopClient.getInstance().enqueue(ApiPath.CATEGORY,null,CategoryRsp.class,uiCallback);
 
         }
     }

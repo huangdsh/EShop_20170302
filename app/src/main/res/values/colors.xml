@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#fd3567</color>
-    <color name="colorPrimaryDark">#fb3654</color>
+    <color name="colorPrimary">#ff4bbd</color>
+    <color name="colorPrimaryDark">#ff55a1</color>
     <color name="colorAccent">@color/orange</color>
 
     <!-- 灰度值(grayscale) -->
@@ -12,7 +12,7 @@
 
     <!-- 基本颜色 -->
     <color name="purple">#7A71E9</color>
-    <color name="orange">#ff432a</color>
+    <color name="orange">#ff291e</color>
     <color name="pink">#F06CA7</color>
-    <color name="brown">#847534</color>
+    <color name="brown">#fdbf41</color>
 </resources>

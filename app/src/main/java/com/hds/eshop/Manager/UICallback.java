@@ -3,9 +3,8 @@ package com.hds.eshop.Manager;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.feicuiedu.eshop_0221.R;
-import com.feicuiedu.eshop_0221.base.utils.LogUtils;
-import com.feicuiedu.eshop_0221.network.EShopClient;
+import com.hds.eshop.R;
+import com.hds.eshop.Utils.LogUtils;
 
 import java.io.IOException;
 
@@ -14,7 +13,12 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 /**
- * Created by gqq on 2017/2/23.
+ * UiCallback:
+ * 1. 处理后台线程与主线程的交互：Handler处理
+ * 2. 统一处理各种错误情况
+ * 3. 将所有请求得到的响应转换为之前定义的响应体基类
+ *
+ * 这里直接处理错误情况，所以可以直接对外提供一个请求成功的方法，方便处理请求的数据
  */
 
 // 为了统一处理OkHttp的Callback不能更新UI的问题
@@ -41,7 +45,9 @@ public abstract class UICallback implements Callback{
 //        return t;
 //    }
 
+    // 转换的类型
     private Class<? extends ResponseEntity> mResponseType;
+
 
     public UICallback() {
     }
@@ -81,6 +87,7 @@ public abstract class UICallback implements Callback{
         LogUtils.error("onFailureInUi",e);
         onBusinessResponse(false,null);
     }
+
 
     public void onResponseInUI(Call call, Response response) throws IOException {
         if (response.isSuccessful()){

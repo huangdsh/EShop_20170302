@@ -20,11 +20,9 @@ import com.hds.eshop.Entity.HomeCategoryRsp;
 import com.hds.eshop.Entity.Picture;
 import com.hds.eshop.Entity.SimpleGoods;
 import com.hds.eshop.Manager.BannerLayout;
-import com.hds.eshop.Manager.EShopClient;
 import com.hds.eshop.Manager.PtrWrapper;
 import com.hds.eshop.Manager.ResponseEntity;
 import com.hds.eshop.Manager.ToolbarWrapper;
-import com.hds.eshop.Manager.UICallback;
 import com.hds.eshop.R;
 import com.squareup.picasso.Picasso;
 
@@ -126,45 +124,45 @@ public class HomeFragment extends BaseFragment {
         mListHomeGoods.setAdapter(mGoodsAdapter);
     }
 
-    // 去请求数据
-    public void getHomeData() {
+//    // 去请求数据
+//    public void getHomeData() {
+//
+//        // 轮播图和促销单品的数据
+//        UICallback bannerCallback = new UICallback() {
+//            @Override
+//            public void onBusinessResponse(boolean isSucces, ResponseEntity responseEntity) {
+//                mBannerRefreshed = true;
+//                if (isSucces){
+//                    // 数据拿到了，首先给bannerAdapter,另外是给促销单品
+//                    HomeBannerRsp bannerRsp = (HomeBannerRsp) responseEntity;
+//                    mBannerAdapter.reset(bannerRsp.getData().getBanners());
+//                    setPromoteGoods(bannerRsp.getData().getGoodsList());
+//                }
+//                if (mBannerRefreshed && mCategoryRefreshed){
+//                    //两个接口都拿到数据之后，停止刷新
+//                    mPtrWrapper.stopRefresh();
+//                }
+//            }
+//        };
 
-        // 轮播图和促销单品的数据
-        UICallback bannerCallback = new UICallback() {
-            @Override
-            public void onBusinessResponse(boolean isSucces, ResponseEntity responseEntity) {
-                mBannerRefreshed = true;
-                if (isSucces){
-                    // 数据拿到了，首先给bannerAdapter,另外是给促销单品
-                    HomeBannerRsp bannerRsp = (HomeBannerRsp) responseEntity;
-                    mBannerAdapter.reset(bannerRsp.getData().getBanners());
-                    setPromoteGoods(bannerRsp.getData().getGoodsList());
-                }
-                if (mBannerRefreshed && mCategoryRefreshed){
-                    //两个接口都拿到数据之后，停止刷新
-                    mPtrWrapper.stopRefresh();
-                }
-            }
-        };
-
-        // 首页分类商品和推荐
-        UICallback categoryCallback = new UICallback() {
-            @Override
-            public void onBusinessResponse(boolean isSucces, ResponseEntity responseEntity) {
-                mCategoryRefreshed = true;
-                if(isSucces){
-                    HomeCategoryRsp categoryRsp = (HomeCategoryRsp) responseEntity;
-                    mGoodsAdapter.reset(categoryRsp.getData());
-                }
-                if (mBannerRefreshed && mCategoryRefreshed){
-                    //两个接口都拿到数据之后，停止刷新
-                    mPtrWrapper.stopRefresh();
-                }
-            }
-        };
-        EShopClient.getInstance().enqueue(ApiPath.HOME_DATA,null,HomeBannerRsp.class,bannerCallback);
-        EShopClient.getInstance().enqueue(ApiPath.HOME_CATEGORY,null,HomeCategoryRsp.class,categoryCallback);
-    }
+//        // 首页分类商品和推荐
+//        UICallback categoryCallback = new UICallback() {
+//            @Override
+//            public void onBusinessResponse(boolean isSucces, ResponseEntity responseEntity) {
+//                mCategoryRefreshed = true;
+//                if(isSucces){
+//                    HomeCategoryRsp categoryRsp = (HomeCategoryRsp) responseEntity;
+//                    mGoodsAdapter.reset(categoryRsp.getData());
+//                }
+//                if (mBannerRefreshed && mCategoryRefreshed){
+//                    //两个接口都拿到数据之后，停止刷新
+//                    mPtrWrapper.stopRefresh();
+//                }
+//            }
+//        };
+//        EShopClient.getInstance().enqueue(ApiPath.HOME_DATA,null,HomeBannerRsp.class,bannerCallback);
+//        EShopClient.getInstance().enqueue(ApiPath.HOME_CATEGORY,null,HomeCategoryRsp.class,categoryCallback);
+//    }
 
     // 设置促销单品的展示
     private void setPromoteGoods(List<SimpleGoods> goodsList) {
@@ -173,7 +171,7 @@ public class HomeFragment extends BaseFragment {
             mIvPromotes[i].setVisibility(View.VISIBLE);
             final SimpleGoods simpleGoods = goodsList.get(i);
             Picture picture = simpleGoods.getImg();
-//            mIvPromotes[i].setImageResource(R.drawable.image_holder_goods);
+            mIvPromotes[i].setImageResource(R.drawable.image_holder_goods);
 
             // 圆形、灰度
             Picasso.with(getContext()).load(picture.getSmall())

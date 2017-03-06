@@ -3,6 +3,9 @@ package com.hds.eshop.Api;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.hds.eshop.Manager.RequestParam;
+import com.hds.eshop.Manager.ResponseEntity;
+
 /**
  * Created by gqq on 2017/3/3.
  */
@@ -12,7 +15,8 @@ public interface ApiInterface {
 
     @NonNull String getPath();
 
-    @Nullable RequestParam getRequestParam();
+    @Nullable
+    RequestParam getRequestParam();
 
     @NonNull Class<? extends ResponseEntity> getResponseEntity();
 }

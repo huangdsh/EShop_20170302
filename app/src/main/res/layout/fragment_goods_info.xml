@@ -14,8 +14,7 @@
 
         <!--商品详情页图片切换-->
 
-
-        <com.feicuiedu.eshop.base.widgets.SquareLayout
+        <com.hds.eshop.Manager.SquareLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -32,7 +31,7 @@
                 android:layout_gravity="bottom"
                 app:ci_drawable="@drawable/indicator_yellow_radius"
                 app:ci_drawable_unselected="@drawable/white_radius"/>
-        </com.feicuiedu.eshop.base.widgets.SquareLayout>
+        </com.hds.eshop.Manager.SquareLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

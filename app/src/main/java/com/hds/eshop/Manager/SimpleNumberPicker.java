@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.feicuiedu.eshop.R;
+import com.hds.eshop.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
