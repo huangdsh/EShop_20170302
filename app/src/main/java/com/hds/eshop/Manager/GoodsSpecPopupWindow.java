@@ -1,6 +1,8 @@
 package com.hds.eshop.Manager;
 
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,85 +39,110 @@ public class GoodsSpecPopupWindow extends PopupWindow implements PopupWindow.OnD
     SimpleNumberPicker mNumberPicker;
 
     private final ViewGroup mParent;
-    private GoodsInfo mGoodsInfo;
     private BaseActivity mActivity;
+    private GoodsInfo mGoodsInfo;
+    private OnConfirmListener mOnConfirmListener;
 
-    private OnConfirmListener mConfirmListener;
+    /**
+     * 1. 布局填充：构造方法里面
+     * 2. 显示：show方法，弹出展示
+     * 3. 弹出和隐藏的时候设置背景的透明度
+     * 4. 商品数据的展示：需要数据，所以可以在构造方法中传递数据
+     */
 
-    // 构造方法里面初始化布局等
-    public GoodsSpecPopupWindow(BaseActivity activity, GoodsInfo goodsInfo) {
-        mGoodsInfo = goodsInfo;
+    public GoodsSpecPopupWindow(BaseActivity activity, @NonNull GoodsInfo goodsInfo) {
+
         this.mActivity = activity;
+        this.mGoodsInfo = goodsInfo;
 
+        // 布局填充
+        // 最上层的View
         mParent = (ViewGroup) activity.getWindow().getDecorView();
-
+        Context context = mParent.getContext();
         View view = LayoutInflater.from(activity).inflate(R.layout.popup_goods_spec, mParent, false);
+        // 设置布局
         setContentView(view);
 
         // 设置宽高
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        setHeight(mParent.getContext().getResources().getDimensionPixelSize(R.dimen.size_400));
+        setHeight(context.getResources().getDimensionPixelSize(R.dimen.size_400));
 
-        setFocusable(true);
-        // 必须设置
+        // 设置背景。。。
         setBackgroundDrawable(new ColorDrawable());
+        // 设置点击窗体外部popupWindow消失
+        setFocusable(true);
         setOutsideTouchable(true);
 
-        // 该Activity总是调整屏幕的大小以便留出软键盘的空间
+        // 有软键盘：调整窗体的大小，留出软键盘的空间
         setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        // 效果：弹出和隐藏的时候设置窗体背景的透明度
         setOnDismissListener(this);
 
-        ButterKnife.bind(this, view);
-        initView();
+        ButterKnife.bind(this,view);
 
+        // 视图的填充
+        initView();
     }
 
+    // 商品数据的展示
     private void initView() {
-        // 初始化视图
+        // 商品的图片、价格、库存、选择的商品数量
         Picasso.with(mParent.getContext()).load(mGoodsInfo.getImg().getLarge()).into(mIvGoods);
-
         mTvPrice.setText(mGoodsInfo.getShopPrice());
         mTvInventory.setText(String.valueOf(mGoodsInfo.getNumber()));
         mNumberPicker.setOnNumberChangedListener(new SimpleNumberPicker.OnNumberChangedListener() {
+
+            // 可以拿到商品数量选择器选择的商品数量
             @Override
             public void onNumberChanged(int number) {
+
+                // 实时拿到商品数量并展示
                 mTvNumber.setText(String.valueOf(number));
             }
         });
     }
 
-    public void show(OnConfirmListener onConfirmListener) {
-        this.mConfirmListener = onConfirmListener;
-        showAtLocation(mParent, Gravity.BOTTOM,0,0);
-        //显示设置背景
-        backgroundAlpha(0.6f);
-    }
-
-    @Override
-    public void onDismiss() {
-        backgroundAlpha(1.0f);
-        mConfirmListener = null;
-    }
-
+    // 确认按钮的点击事件
     @OnClick(R.id.button_ok)
-    public void onClick() {
-
-        // 确定按钮，要将选择的数量传递出去，接口回调的方式。
+    public void onClickOk(View view){
+        // 具体选择了多少个商品给使用者传递出去，具体的事件我们并不知道：跳转到购买页面还是直接只加入购物车
+        // 所以我们把具体的事件实现交给使用者去处理
         int number = mNumberPicker.getNumber();
+
+        // 商品数量为0，不做操作
         if (number==0){
             ToastWrapper.show(R.string.goods_msg_must_choose_number);
             return;
         }
 
-        mConfirmListener.onConfirm(number);
+        mOnConfirmListener.onConfirm(number);
     }
 
-    private void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        mActivity.getWindow().setAttributes(lp);
+    // 展示PopupWindow:参数中实现接口的监听
+    public void show(OnConfirmListener onConfirmListener){
+        this.mOnConfirmListener = onConfirmListener;
+
+        // 从哪显示出来
+        showAtLocation(mParent, Gravity.BOTTOM,0,0);
+        // 设置背景透明度
+        backgroundAlpha(0.5f);
     }
 
+    // 弹窗消失的时候会调用
+    @Override
+    public void onDismiss() {
+        backgroundAlpha(1.0f);
+    }
+
+    // 改变透明度的方法：根据传入的透明度来变化:0.0f--1.0f
+    private void backgroundAlpha(float bgAlpha){
+        // 改变的窗体的透明度属性变化
+        WindowManager.LayoutParams layoutParams = mActivity.getWindow().getAttributes();
+        layoutParams.alpha = bgAlpha;
+        mActivity.getWindow().setAttributes(layoutParams);
+    }
+
+    // 确定监听
     public interface OnConfirmListener{
         void onConfirm(int number);
     }

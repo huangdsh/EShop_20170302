@@ -129,7 +129,7 @@ public class GoodsActivity extends BaseActivity implements ViewPager.OnPageChang
     @OnClick({R.id.text_tab_goods, R.id.text_tab_details, R.id.text_tab_comments})
     public void selectTab(TextView textView) {
         int position = tvTabList.indexOf(textView);
-        goodsPager.setCurrentItem(position);
+        goodsPager.setCurrentItem(position,false);
         chooseTab(position);
 
     }
